@@ -1,0 +1,72 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    background-color: #F7F4FA;
+    background-image: radial-gradient(#DAC2F2 0.75px, transparent 0.75px), radial-gradient(#DAC2F2 0.75px, #F7F4FA 0.75px);
+    background-size: 30px 30px;
+    background-position: 0 0, 15px 15px;
+    color: #2E1A47;
+    font-family: 'Outfit', sans-serif;
+  }
+
+  h1, h2, h3, .font-serif {
+    font-family: 'Playfair Display', Georgia, serif;
+  }
+}
+
+/* Custom golden gradient text */
+.text-gold-gradient {
+  background: linear-gradient(135deg, #F3E5AB 0%, #D4AF37 50%, #AA820A 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.bg-gold-gradient {
+  background: linear-gradient(135deg, #F5E7B7 0%, #D4AF37 50%, #B38F24 100%);
+}
+
+.bg-purple-gradient {
+  background: linear-gradient(135deg, #1B0E2C 0%, #2E1A47 40%, #4A2E6D 100%);
+}
+
+.gold-border-ornament {
+  border: 2px solid #D4AF37;
+  position: relative;
+}
+
+.gold-border-ornament::before {
+  content: '';
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  right: 4px;
+  bottom: 4px;
+  border: 1px solid rgba(212, 175, 55, 0.4);
+  pointer-events: none;
+  border-radius: inherit;
+}
+
+/* Print Ticket Styling */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  #printable-ticket, #printable-ticket * {
+    visibility: visible;
+  }
+  #printable-ticket {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    box-shadow: none;
+  }
+  .no-print {
+    display: none !important;
+  }
+}
