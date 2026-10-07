@@ -9,6 +9,7 @@ export const adminLoginLimiter = rateLimit({
   skip: () => process.env.NODE_ENV === 'test',
   standardHeaders: true,
   legacyHeaders: false,
+  validate: { xForwardedForHeader: false },
   message: {
     success: false,
     message: 'Too many failed admin login attempts. Please try again after 15 minutes.',
@@ -23,6 +24,7 @@ export const registrationLimiter = rateLimit({
   max: 15, // Limit each IP to 15 registrations/payments per window
   standardHeaders: true,
   legacyHeaders: false,
+  validate: { xForwardedForHeader: false },
   message: {
     success: false,
     message: 'Too many registration requests from this IP. Please wait a few minutes.',
@@ -37,6 +39,7 @@ export const lookupLimiter = rateLimit({
   max: 60,
   standardHeaders: true,
   legacyHeaders: false,
+  validate: { xForwardedForHeader: false },
   message: {
     success: false,
     message: 'Too many status lookups. Please slow down.',
