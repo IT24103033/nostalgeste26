@@ -597,12 +597,12 @@ export default function AdminDashboard() {
         </div>
 
         {/* Action Buttons: Add Student, Export, Refresh, Logout */}
-        <div className="flex items-center justify-end flex-wrap gap-2">
+        <div className="flex items-center justify-center sm:justify-end flex-wrap gap-2 w-full sm:w-auto">
           {adminSubTab === 'verification' && (
             <>
               <button
                 onClick={() => setShowAddModal(true)}
-                className="bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl flex items-center space-x-1.5 transition-all shadow-md shrink-0 border border-emerald-400/40"
+                className="flex-1 sm:flex-initial bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl flex items-center justify-center space-x-1.5 transition-all shadow-md shrink-0 border border-emerald-400/40"
               >
                 <UserPlus className="w-4 h-4" />
                 <span>+ Add Student</span>
@@ -611,7 +611,7 @@ export default function AdminDashboard() {
               <button
                 onClick={exportCsv}
                 disabled={exportingCsv}
-                className="bg-gold-500 hover:bg-gold-400 text-royal-950 font-bold text-xs px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl flex items-center space-x-1.5 transition-all shadow-gold-glow disabled:opacity-50 shrink-0"
+                className="bg-gold-500 hover:bg-gold-400 text-royal-950 font-bold text-xs px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl flex items-center justify-center space-x-1.5 transition-all shadow-gold-glow disabled:opacity-50 shrink-0"
               >
                 <FileSpreadsheet className="w-4 h-4" />
                 <span>{exportingCsv ? 'Exporting...' : 'CSV'}</span>
@@ -644,62 +644,72 @@ export default function AdminDashboard() {
         <>
           {/* Metrics Cards Grid */}
           {metrics && (
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-2.5 sm:gap-4">
               
-              <div className="bg-white p-3.5 sm:p-4 rounded-2xl border border-royal-200 shadow-sm">
-                <div className="text-[10px] sm:text-xs uppercase tracking-wider text-royal-500 font-semibold mb-1">
-                  Registered
-                </div>
-                <div className="font-serif text-xl sm:text-3xl font-bold text-royal-950">
-                  {metrics.total}
+              <div className="bg-white p-3 sm:p-4 rounded-2xl border border-royal-200 shadow-sm flex flex-col justify-between">
+                <div>
+                  <div className="text-[10px] sm:text-xs uppercase tracking-wider text-royal-500 font-semibold mb-1">
+                    Registered
+                  </div>
+                  <div className="font-serif text-xl sm:text-3xl font-bold text-royal-950">
+                    {metrics.total}
+                  </div>
                 </div>
                 <div className="text-[10px] text-royal-400 mt-1 truncate">
                   {metrics.dbMode}
                 </div>
               </div>
 
-              <div className="bg-emerald-50 p-3.5 sm:p-4 rounded-2xl border border-emerald-300 shadow-sm">
-                <div className="text-[10px] sm:text-xs uppercase tracking-wider text-emerald-800 font-semibold mb-1">
-                  Full Passes
-                </div>
-                <div className="font-serif text-xl sm:text-3xl font-bold text-emerald-700">
-                  {metrics.fullApproved}
+              <div className="bg-emerald-50 p-3 sm:p-4 rounded-2xl border border-emerald-300 shadow-sm flex flex-col justify-between">
+                <div>
+                  <div className="text-[10px] sm:text-xs uppercase tracking-wider text-emerald-800 font-semibold mb-1">
+                    Full Passes
+                  </div>
+                  <div className="font-serif text-xl sm:text-3xl font-bold text-emerald-700">
+                    {metrics.fullApproved}
+                  </div>
                 </div>
                 <div className="text-[10px] text-emerald-600 mt-1">
                   Golden QR active
                 </div>
               </div>
 
-              <div className="bg-amber-50 p-3.5 sm:p-4 rounded-2xl border border-amber-300 shadow-sm">
-                <div className="text-[10px] sm:text-xs uppercase tracking-wider text-amber-800 font-semibold mb-1">
-                  Pending Review
-                </div>
-                <div className="font-serif text-xl sm:text-3xl font-bold text-amber-700">
-                  {metrics.pendingTotal}
+              <div className="bg-amber-50 p-3 sm:p-4 rounded-2xl border border-amber-300 shadow-sm flex flex-col justify-between">
+                <div>
+                  <div className="text-[10px] sm:text-xs uppercase tracking-wider text-amber-800 font-semibold mb-1">
+                    Pending Review
+                  </div>
+                  <div className="font-serif text-xl sm:text-3xl font-bold text-amber-700">
+                    {metrics.pendingTotal}
+                  </div>
                 </div>
                 <div className="text-[10px] text-amber-600 mt-1">
                   Awaiting confirmation
                 </div>
               </div>
 
-              <div className="bg-blue-50 p-3.5 sm:p-4 rounded-2xl border border-blue-300 shadow-sm">
-                <div className="text-[10px] sm:text-xs uppercase tracking-wider text-blue-800 font-semibold mb-1">
-                  Gate In
-                </div>
-                <div className="font-serif text-xl sm:text-3xl font-bold text-blue-700">
-                  {metrics.checkedIn}
+              <div className="bg-blue-50 p-3 sm:p-4 rounded-2xl border border-blue-300 shadow-sm flex flex-col justify-between">
+                <div>
+                  <div className="text-[10px] sm:text-xs uppercase tracking-wider text-blue-800 font-semibold mb-1">
+                    Gate In
+                  </div>
+                  <div className="font-serif text-xl sm:text-3xl font-bold text-blue-700">
+                    {metrics.checkedIn}
+                  </div>
                 </div>
                 <div className="text-[10px] text-blue-600 mt-1">
                   Wristbands issued
                 </div>
               </div>
 
-              <div className="bg-gold-50 p-3.5 sm:p-4 rounded-2xl border border-gold-300 shadow-sm">
-                <div className="text-[10px] sm:text-xs uppercase tracking-wider text-gold-900 font-semibold mb-1">
-                  Revenue
-                </div>
-                <div className="font-serif text-lg sm:text-2xl font-bold text-gold-800">
-                  Rs. {metrics.totalRevenue.toLocaleString()}
+              <div className="col-span-2 md:col-span-1 lg:col-span-1 bg-gold-50 p-3 sm:p-4 rounded-2xl border border-gold-300 shadow-sm flex flex-col justify-between">
+                <div>
+                  <div className="text-[10px] sm:text-xs uppercase tracking-wider text-gold-900 font-semibold mb-1">
+                    Revenue
+                  </div>
+                  <div className="font-serif text-lg sm:text-2xl font-bold text-gold-800">
+                    Rs. {metrics.totalRevenue.toLocaleString()}
+                  </div>
                 </div>
                 <div className="text-[10px] text-gold-700 mt-1">
                   Verified collections
