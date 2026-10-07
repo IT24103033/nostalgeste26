@@ -67,16 +67,38 @@ app.get('/api/health', (req, res) => {
 });
 
 // Serve Production React Frontend if built
-const clientDist = path.resolve('../client/dist');
-const altClientDist = path.resolve('client/dist');
-const effectiveDist = fs.existsSync(clientDist) ? clientDist : fs.existsSync(altClientDist) ? altClientDist : null;
+const candidateDistPaths = [
+  path.join(process.cwd(), 'client', 'dist'),
+  path.resolve('client/dist'),
+  path.resolve('../client/dist'),
+  path.join(path.dirname(new URL(import.meta.url).pathname), '../client/dist'),
+];
+const effectiveDist = candidateDistPaths.find((p) => fs.existsSync(p) && fs.existsSync(path.join(p, 'index.html'))) || null;
 
 if (effectiveDist) {
-  app.use(express.static(effectiveDist));
+  // Static assets with caching for hashed files, no-cache for index.html
+  app.use(
+    express.static(effectiveDist, {
+      etag: true,
+      setHeaders: (res, filePath) => {
+        if (filePath.endsWith('index.html')) {
+          res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+          res.setHeader('Pragma', 'no-cache');
+          res.setHeader('Expires', '0');
+        } else if (filePath.includes('/assets/')) {
+          res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
+        }
+      },
+    })
+  );
+
   app.get('*', (req, res, next) => {
     if (req.path.startsWith('/api') || req.path.startsWith('/uploads')) {
       return next();
     }
+    res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+    res.setHeader('Pragma', 'no-cache');
+    res.setHeader('Expires', '0');
     res.sendFile(path.join(effectiveDist, 'index.html'));
   });
 } else {
