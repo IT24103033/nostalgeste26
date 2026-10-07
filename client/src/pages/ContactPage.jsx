@@ -1,7 +1,6 @@
 import React from 'react';
 import {
   Phone,
-  Mail,
   MessageCircle,
   Clock,
   HeartHandshake,
@@ -13,52 +12,40 @@ export default function ContactPage({ onBackToPass }) {
   const committeeMembers = [
     {
       name: 'Dihansa Sanudini',
-      role: 'Head Coordinator & Batch Rep',
-      class: '13-A',
+      class: 'C1',
       phone: '075 765 0348',
-      rawPhone: '94771234567',
-      email: 'sanduni.mbv2026@gmail.com',
       avatarColor: 'from-amber-500 to-gold-400',
-      responsibilities: 'General event inquiries, registration assistance, timetable & venue access.',
-      badge: 'Main Coordinator',
     },
     {
-      name: 'Rashmi Jayasuriya',
-      role: 'Treasurer & Slip Verifications',
-      class: '13-C',
-      phone: '071 987 6543',
-      rawPhone: '94719876543',
-      email: 'treasurer.mbv2026@gmail.com',
+      name: 'Resandi Vinoya',
+      class: 'C2',
+      phone: '075 558 3406',
       avatarColor: 'from-emerald-500 to-teal-400',
-      responsibilities: 'Bank transfer issues, slip re-uploads, 2nd half balance verification.',
-      badge: 'Finance & Payments',
     },
     {
-      name: 'Sujana Dinuwara',
-      role: 'IT & Digital Ticketing Lead',
-      phone: '076 537 6323',
-      rawPhone: '94704567890',
-      email: 'sujanadinuwara@gmail.com',
+      name: 'Binali Bimsarani',
+      phone: '072 011 9937',
       avatarColor: 'from-blue-600 to-indigo-400',
-      responsibilities: 'QR Pass download issues, email delivery, barcode verification errors.',
-      badge: 'Tech & Pass Support',
     },
     {
-      name: 'Tharushi Fernando',
-      role: 'Gate & Hospitality Lead',
-      class: '13-E',
-      phone: '078 333 4455',
-      rawPhone: '94783334455',
-      email: 'hospitality.mbv2026@gmail.com',
+      name: 'Savindi Pahangee',
+      phone: '076 308 2203',
       avatarColor: 'from-rose-500 to-pink-400',
-      responsibilities: 'Wristband allocation, dietary requirements, entrance dress code guidelines.',
-      badge: 'Gate & Hospitality',
     },
   ];
 
-  const openWhatsApp = (rawPhone, name, role) => {
-    const text = `👋 Hello ${name} (${role}),\nI am contacting you regarding an inquiry for Nostalgeste '26 School Batch Party.\n\nMy Details:\n• Name:\n• NIC / Class:\n• My Question / Issue:`;
-    window.open(`https://wa.me/${rawPhone}?text=${encodeURIComponent(text)}`, '_blank');
+  const getCleanNumber = (member) => {
+    if (member.rawPhone) return member.rawPhone;
+    const digits = (member.phone || '').replace(/\D/g, '');
+    if (digits.startsWith('0')) return '94' + digits.slice(1);
+    if (digits.startsWith('94')) return digits;
+    return '94' + digits;
+  };
+
+  const openWhatsApp = (member) => {
+    const number = getCleanNumber(member);
+    const text = `👋 Hello ${member.name},\nI am contacting you regarding an inquiry for Nostalgeste '26 School Batch Party.\n\nMy Details:\n• Name:\n• NIC / Class:\n• My Question / Issue:`;
+    window.open(`https://wa.me/${number}?text=${encodeURIComponent(text)}`, '_blank');
   };
 
   return (
@@ -71,15 +58,15 @@ export default function ContactPage({ onBackToPass }) {
 
         <div className="inline-flex items-center space-x-2 bg-gold-500/20 border border-gold-400/40 px-3.5 py-1 rounded-full text-xs font-semibold text-gold-300">
           <HeartHandshake className="w-3.5 h-3.5 text-gold-400" />
-          <span>Student Support Center</span>
+          <span>Student Support & Committee</span>
         </div>
 
         <h1 className="font-serif text-2xl sm:text-4xl font-bold text-gold-gradient">
-          Organizing Committee & Help Desk
+          Organizing Committee Contacts
         </h1>
 
         <p className="text-xs sm:text-sm text-royal-200 max-w-2xl mx-auto leading-relaxed">
-          Need help with your bank transfer slip, ticket approval, or event inquiries? Our dedicated committee members are ready to assist you.
+          Need help with your bank transfer slip, ticket approval, or event inquiries? Feel free to contact our committee members directly via WhatsApp or Phone call.
         </p>
 
         <div className="pt-2 flex flex-wrap items-center justify-center gap-3">
@@ -99,10 +86,10 @@ export default function ContactPage({ onBackToPass }) {
           <div className="flex items-center space-x-2">
             <Users className="w-5 h-5 text-gold-600" />
             <h2 className="font-serif text-xl sm:text-2xl font-bold text-royal-950">
-              Committee Representatives
+              Committee Members
             </h2>
           </div>
-          <span className="text-[11px] text-royal-500">Tap WhatsApp or Call for instant help</span>
+          <span className="text-[11px] text-royal-500">Tap WhatsApp or Call for assistance</span>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
@@ -111,7 +98,7 @@ export default function ContactPage({ onBackToPass }) {
               key={idx}
               className="bg-white rounded-2xl p-5 sm:p-6 border border-royal-200 shadow-lg hover:shadow-xl transition-all duration-300 space-y-4 relative group"
             >
-              <div className="flex items-start justify-between">
+              <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-3.5">
                   <div
                     className={`w-12 h-12 rounded-2xl bg-gradient-to-tr ${member.avatarColor} p-0.5 shadow-md flex items-center justify-center text-white font-bold text-lg font-serif`}
@@ -126,23 +113,19 @@ export default function ContactPage({ onBackToPass }) {
                       {member.name}
                     </h3>
                     <p className="text-xs text-royal-600 font-medium">
-                      {member.role} {member.class && <>• <span className="font-bold text-royal-800">Class {member.class}</span></>}
+                      {member.phone} {member.class && <>• <span className="font-bold text-royal-800">Class {member.class}</span></>}
                     </p>
                   </div>
                 </div>
 
-                <span className="text-[10px] uppercase font-bold tracking-wider bg-gold-100 text-gold-900 border border-gold-300 px-2 py-0.5 rounded-full">
-                  {member.badge}
+                <span className="text-[11px] font-bold tracking-wider bg-gold-100 text-royal-900 border border-gold-300 px-2.5 py-1 rounded-full">
+                  MBV '26
                 </span>
               </div>
 
-              <p className="text-xs text-royal-600 bg-lavender-50/70 p-3 rounded-xl border border-royal-100/80 leading-relaxed">
-                {member.responsibilities}
-              </p>
-
               <div className="grid grid-cols-2 gap-2 pt-1">
                 <button
-                  onClick={() => openWhatsApp(member.rawPhone, member.name, member.role)}
+                  onClick={() => openWhatsApp(member)}
                   className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 px-3 rounded-xl text-xs flex items-center justify-center space-x-1.5 transition-colors shadow-sm"
                 >
                   <MessageCircle className="w-3.5 h-3.5" />
@@ -150,11 +133,11 @@ export default function ContactPage({ onBackToPass }) {
                 </button>
 
                 <a
-                  href={`tel:${member.rawPhone}`}
+                  href={`tel:${getCleanNumber(member)}`}
                   className="bg-royal-100 hover:bg-royal-200 text-royal-900 font-bold py-2.5 px-3 rounded-xl text-xs flex items-center justify-center space-x-1.5 border border-royal-200 transition-colors"
                 >
                   <Phone className="w-3.5 h-3.5 text-royal-700" />
-                  <span>Call {member.phone.slice(0, 7)}...</span>
+                  <span>Call Now</span>
                 </a>
               </div>
             </div>
@@ -167,22 +150,22 @@ export default function ContactPage({ onBackToPass }) {
         <div className="flex items-center space-x-3">
           <Clock className="w-5 h-5 text-gold-400 shrink-0" />
           <div>
-            <div className="font-bold text-sm text-white">Support Hours</div>
+            <div className="font-bold text-sm text-white">Support Availability</div>
             <div className="text-xs text-royal-300">
-              Committee members are available daily from 8:00 AM to 10:00 PM.
+              Committee members are available daily to assist all students.
             </div>
           </div>
         </div>
 
         <button
           onClick={() => {
-            const text = `👋 Hello Nostalgeste '26 Committee Helpdesk, I need assistance with my student pass.`;
-            window.open(`https://wa.me/94771234567?text=${encodeURIComponent(text)}`, '_blank');
+            const text = `👋 Hello Nostalgeste '26 Committee, I need assistance with my student pass.`;
+            window.open(`https://wa.me/94757650348?text=${encodeURIComponent(text)}`, '_blank');
           }}
           className="bg-gold-500 hover:bg-gold-400 text-royal-950 font-bold px-4 py-2 rounded-xl text-xs transition-colors shadow-gold-glow flex items-center space-x-1.5"
         >
           <MessageCircle className="w-4 h-4" />
-          <span>Quick Helpdesk</span>
+          <span>Quick WhatsApp</span>
         </button>
       </div>
 

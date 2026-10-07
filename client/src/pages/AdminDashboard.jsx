@@ -48,11 +48,7 @@ import GateScanner from './GateScanner';
 const LOCKOUT_SECONDS = 60;
 const INACTIVITY_TIMEOUT_MS = 15 * 60 * 1000; // 15 minutes
 
-const predefinedClasses = [
-  '13-A', '13-B', '13-C', '13-D', '13-E',
-  '12-A', '12-B', '12-C', '12-D', '12-E',
-  'Other / Custom',
-];
+const predefinedClasses = ['C1', 'C2', 'A1', 'A2', 'BM'];
 
 export default function AdminDashboard() {
   const [isAuthenticated, setIsAuthenticated] = useState(
@@ -103,7 +99,7 @@ export default function AdminDashboard() {
   const [addForm, setAddForm] = useState({
     name: '',
     nic: '',
-    studentClass: '13-C',
+    studentClass: 'C1',
     customClass: '',
     phone: '',
     email: '',
@@ -432,7 +428,7 @@ export default function AdminDashboard() {
         setAddForm({
           name: '',
           nic: '',
-          studentClass: '13-C',
+          studentClass: 'C1',
           customClass: '',
           phone: '',
           email: '',
@@ -781,16 +777,11 @@ export default function AdminDashboard() {
                 className="w-full px-3 py-2.5 rounded-xl border border-royal-200 text-xs sm:text-sm outline-none focus:border-gold-500 bg-lavender-50/50 font-semibold"
               >
                 <option value="ALL">All Classes</option>
-                <option value="13-A">Class 13-A</option>
-                <option value="13-B">Class 13-B</option>
-                <option value="13-C">Class 13-C</option>
-                <option value="13-D">Class 13-D</option>
-                <option value="13-E">Class 13-E</option>
-                <option value="12-A">Class 12-A</option>
-                <option value="12-B">Class 12-B</option>
-                <option value="12-C">Class 12-C</option>
-                <option value="12-D">Class 12-D</option>
-                <option value="12-E">Class 12-E</option>
+                <option value="C1">Class C1</option>
+                <option value="C2">Class C2</option>
+                <option value="A1">Class A1</option>
+                <option value="A2">Class A2</option>
+                <option value="BM">Class BM</option>
               </select>
 
               {/* Check-In filter */}

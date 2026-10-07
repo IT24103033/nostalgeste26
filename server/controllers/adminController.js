@@ -264,7 +264,7 @@ export const manualAddAttendee = async (req, res) => {
     const cleanNic = (nic || '').trim().toUpperCase();
     const rawPhone = (phone || '').trim();
     const cleanEmail = (email || '').trim().toLowerCase();
-    const cleanClass = (studentClass || '13-C').trim();
+    const cleanClass = (studentClass || 'C1').trim();
 
     // 1. Name Validation
     if (!cleanName || cleanName.length < 2) {

@@ -112,7 +112,7 @@ async function runTests() {
     const newStudent = await request('/api/admin/attendees/manual-add', 'POST', {
       name: 'Automated Test Student',
       nic: testNic,
-      studentClass: '13-MATH',
+      studentClass: 'C1',
       phone: '0771234567',
       email: 'test@nostalgeste26.com',
       paymentChoice: 'FULL',
@@ -130,7 +130,7 @@ async function runTests() {
     const dupStudent = await request('/api/admin/attendees/manual-add', 'POST', {
       name: 'Duplicate Test',
       nic: testNic,
-      studentClass: '13-A',
+      studentClass: 'C1',
       phone: '0771234567',
     }, { Authorization: `Bearer ${adminToken}` });
     test('System prevents duplicate NIC registration', dupStudent.status === 400 && dupStudent.data?.success === false);
@@ -172,7 +172,7 @@ async function runTests() {
     const student2 = await request('/api/admin/attendees/manual-add', 'POST', {
       name: 'NIC Check-in Student',
       nic: testNic2,
-      studentClass: '13-COMMERCE',
+      studentClass: 'BM',
       phone: '0779876543',
     }, { Authorization: `Bearer ${adminToken}` });
 

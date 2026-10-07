@@ -67,7 +67,7 @@ const attendeeSchema = new mongoose.Schema(
     },
     studentClass: {
       type: String,
-      required: [true, 'Class is required (e.g. 13-C, 12-A)'],
+      required: [true, 'Class is required (e.g. C1, C2, A1, A2, BM)'],
       trim: true,
       uppercase: true,
     },
