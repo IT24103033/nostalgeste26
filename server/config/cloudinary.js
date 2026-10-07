@@ -81,10 +81,20 @@ export const processSlipUpload = async (file, req) => {
         api_secret: process.env.CLOUDINARY_API_SECRET.trim(),
       });
 
-      const result = await cloudinary.uploader.upload(file.path, {
+      const isPdf =
+        file.mimetype === 'application/pdf' ||
+        file.originalname.toLowerCase().endsWith('.pdf');
+
+      const uploadOptions = {
         folder: 'nostalgeste26_slips',
-        transformation: [{ width: 1200, crop: 'limit' }],
-      });
+        resource_type: 'auto',
+      };
+
+      if (!isPdf) {
+        uploadOptions.transformation = [{ width: 1200, crop: 'limit' }];
+      }
+
+      const result = await cloudinary.uploader.upload(file.path, uploadOptions);
 
       console.log(`☁️ Cloudinary Upload Success for ${file.originalname}: ${result.secure_url}`);
       return {
@@ -96,9 +106,8 @@ export const processSlipUpload = async (file, req) => {
     }
   }
 
-  // Fallback to local server URL
-  const baseUrl = `${req.protocol}://${req.get('host')}`;
-  const localUrl = `${baseUrl}/uploads/${file.filename}`;
+  // Fallback to local server relative URL (works on localhost & production without hardcoding hostname)
+  const localUrl = `/uploads/${file.filename}`;
   return {
     url: localUrl,
     publicId: file.filename,

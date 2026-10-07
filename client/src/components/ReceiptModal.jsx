@@ -11,6 +11,21 @@ export default function ReceiptModal({ attendee, onClose }) {
   const receipts = attendee.receipts || [];
   const currentReceipt = receipts[selectedReceiptIndex] || receipts[0];
 
+  const getNormalizedUrl = (url) => {
+    if (!url) return '';
+    if (url.startsWith('https://res.cloudinary.com') || url.startsWith('http://res.cloudinary.com')) return url;
+    if (url.includes('/uploads/')) {
+      const filename = url.split('/uploads/')[1];
+      return `/uploads/${filename}`;
+    }
+    return url;
+  };
+
+  const normalizedUrl = getNormalizedUrl(currentReceipt?.url);
+  const isPdf =
+    normalizedUrl.toLowerCase().includes('.pdf') ||
+    currentReceipt?.originalFilename?.toLowerCase().endsWith('.pdf');
+
   const handleZoomIn = () => setZoomLevel((prev) => Math.min(prev + 0.3, 3));
   const handleZoomOut = () => setZoomLevel((prev) => Math.max(prev - 0.3, 0.5));
   const handleRotate = () => setRotation((prev) => (prev + 90) % 360);
@@ -106,9 +121,9 @@ export default function ReceiptModal({ attendee, onClose }) {
             >
               Reset
             </button>
-            {currentReceipt?.url && (
+            {normalizedUrl && (
               <a
-                href={currentReceipt.url}
+                href={normalizedUrl}
                 target="_blank"
                 rel="noreferrer"
                 className="p-2 rounded-lg hover:bg-royal-800 text-gold-400 hover:text-gold-300 transition-colors"
@@ -119,18 +134,39 @@ export default function ReceiptModal({ attendee, onClose }) {
             )}
           </div>
 
-          {/* Image Container with Zoom & Rotate */}
+          {/* Image / PDF Container with Zoom & Rotate */}
           <div className="w-full h-full flex items-center justify-center overflow-auto p-4 max-h-[60vh]">
-            {currentReceipt?.url ? (
-              <img
-                src={currentReceipt.url}
-                alt="Payment Slip"
-                style={{
-                  transform: `scale(${zoomLevel}) rotate(${rotation}deg)`,
-                  transition: 'transform 0.2s ease-in-out',
-                }}
-                className="max-h-[55vh] max-w-full object-contain rounded-lg border border-gold-500/20 shadow-2xl"
-              />
+            {normalizedUrl ? (
+              isPdf ? (
+                <div className="w-full h-full min-h-[300px] sm:min-h-[400px] flex flex-col items-center justify-center bg-royal-900/60 rounded-xl p-6 text-center space-y-4 border border-gold-500/20">
+                  <FileText className="w-16 h-16 text-gold-400 mx-auto animate-pulse" />
+                  <div>
+                    <h4 className="font-bold text-base text-white">PDF Payment Receipt Attached</h4>
+                    <p className="text-xs text-royal-300 mt-1 max-w-sm">
+                      {currentReceipt.originalFilename || 'bank_transfer_slip.pdf'}
+                    </p>
+                  </div>
+                  <a
+                    href={normalizedUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="bg-gold-500 hover:bg-gold-400 text-royal-950 font-bold px-6 py-2.5 rounded-xl text-xs sm:text-sm flex items-center space-x-2 shadow-gold-glow transition-all"
+                  >
+                    <ExternalLink className="w-4 h-4" />
+                    <span>View & Download PDF Receipt &rarr;</span>
+                  </a>
+                </div>
+              ) : (
+                <img
+                  src={normalizedUrl}
+                  alt="Payment Slip"
+                  style={{
+                    transform: `scale(${zoomLevel}) rotate(${rotation}deg)`,
+                    transition: 'transform 0.2s ease-in-out',
+                  }}
+                  className="max-h-[55vh] max-w-full object-contain rounded-lg border border-gold-500/20 shadow-2xl"
+                />
+              )
             ) : (
               <div className="text-center p-8 text-royal-400">
                 <ImageIcon className="w-12 h-12 mx-auto mb-2 text-royal-600" />
